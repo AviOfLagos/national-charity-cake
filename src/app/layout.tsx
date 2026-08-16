@@ -1,3 +1,6 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, IBM_Plex_Mono } from "next/font/google";
 
@@ -32,8 +35,28 @@ export const metadata: Metadata = {
     locale: "en_NG",
   },
   twitter: { card: "summary_large_image" },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.url }],
+  publisher: site.name,
+  category: "nonprofit",
+  keywords: [
+    "National Charity Cake",
+    "charity Nigeria",
+    "donate Nigeria",
+    "transparent charity",
+    "public ledger charity",
+    "verified charity Nigeria",
+    "CAC registered charity",
+    "charity bake sale Nigeria",
+  ],
 };
+
+const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   // JSON-LD carries the registration identifier, so the legitimacy signal is
@@ -74,6 +97,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Analytics />
+        <SpeedInsights />
+        {/* Loaded only once a measurement id exists, so no empty gtag request
+            goes out — and so the consent work in the backlog has one place to
+            gate. */}
+        {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
       </body>
     </html>
   );

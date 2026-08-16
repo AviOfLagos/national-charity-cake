@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ButtonLink, Num, PendingValue, Prose, Section, Shell } from "@/components/primitives";
-import { givingTiers, org, site } from "@/lib/content";
+import { givingTiers, isPending, org, site } from "@/lib/content";
 import { formatNaira } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -22,6 +22,29 @@ export const metadata: Metadata = {
 const checkoutUrl = process.env.NEXT_PUBLIC_CHECKOUT_URL ?? "";
 
 export default function DonatePage() {
+  // DonateAction makes the giving path machine-readable, and states the
+  // currency and the accepted rails explicitly so an assistant answering
+  // "how do I give to this" does not have to infer them from prose.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "DonateAction",
+    name: `Donate to ${site.name}`,
+    description: site.promise,
+    recipient: {
+      "@type": "NGO",
+      name: site.name,
+      url: site.url,
+      ...(isPending(org.cacNumber) ? {} : { identifier: org.cacNumber }),
+    },
+    ...(checkoutUrl ? { target: checkoutUrl } : {}),
+    priceSpecification: givingTiers.map((t) => ({
+      "@type": "PriceSpecification",
+      price: t.amountKobo / 100,
+      priceCurrency: "NGN",
+      description: t.buys,
+    })),
+  };
+
   return (
     <>
       <section className="border-b border-line py-14 md:py-20">
@@ -158,6 +181,11 @@ export default function DonatePage() {
           amount still appears in the ledger, because the ledger is the point.
         </p>
       </Section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     </>
   );
 }

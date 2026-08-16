@@ -11,6 +11,9 @@
     "verify": "node .claude/skills/frontend-design-workflow/scripts/verify.mjs http://localhost:3000 / /donate /transparency /volunteer /faq"
   },
   "dependencies": {
+    "@next/third-parties": "^16.3.1",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "google-auth-library": "^11.0.2",
     "next": "16.3.1",
     "react": "19.2.8",
