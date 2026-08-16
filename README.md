@@ -78,3 +78,26 @@ gap. Fill them in `src/lib/content/index.ts`:
 6. **Legal review** of `/privacy` and `/terms` against the Nigeria Data Protection Act.
 
 Deferred engineering work is tracked in `docs/BACKLOG.md`.
+
+## Live
+
+- Production: https://national-charity-cake.vercel.app
+- Repository: https://github.com/AviOfLagos/national-charity-cake
+
+## Analytics and discoverability
+
+Vercel Analytics and Speed Insights run unconditionally. Google Analytics loads only
+when `NEXT_PUBLIC_GA_ID` is set, so nothing is requested before a property exists.
+
+Machine-readable surfaces, all generated from `src/lib/content/` so they cannot
+drift from the pages:
+
+- `/llms.txt` — a curated brief for language models, leading with the checkable
+  facts and marking unpublished values as genuinely unpublished
+- `/robots.txt` — names the AI crawlers explicitly and allows them
+- JSON-LD — `NGO` sitewide, `DonateAction` on `/donate`, `FAQPage` on `/faq`,
+  `NewsArticle` per update
+- `/sitemap.xml`, per-route canonicals, and a generated 1200x630 OG image
+
+The highest-intent query in this category is a version of "is this charity real".
+Everything above exists so the honest answer is the cheapest one to retrieve.
