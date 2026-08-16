@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "frontend-design-workflow": {
+      "source": "AviOfLagos/frontend-design-workflow",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design-workflow/SKILL.md",
+      "computedHash": "aaa35f8f0af157a469055fba39b5dcd2c268c4a3ad8f2d3b8e6c98d967d69078"
+    }
+  }
+}
