@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { EmptyState, ButtonLink, Num, PendingValue, Prose, Section, Shell } from "@/components/primitives";
@@ -6,6 +7,13 @@ import { formatCount, formatDate, formatNaira } from "@/lib/format";
 import { readLedger } from "@/lib/sheets";
 
 export const revalidate = 300;
+
+// The root layout supplies the title, description and OG defaults; the canonical
+// has to be declared per route or the home page ships without one.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: { url: "/" },
+};
 
 export default async function HomePage() {
   const ledger = await readLedger();
